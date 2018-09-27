@@ -460,6 +460,7 @@ class MCP2515
         uint8_t getInterrupts(void);
         uint8_t getInterruptMask(void);
         void clearInterrupts(void);
+	void enableTXInterrupts(void);
         void clearTXInterrupts(void);
         uint8_t getStatus(void);
         void clearRXnOVR(void);

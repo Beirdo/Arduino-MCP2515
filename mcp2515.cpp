@@ -74,6 +74,21 @@ MCP2515::ERROR MCP2515::reset(void)
     return ERROR_OK;
 }
 
+void MCP2515::enableTXInterrupts(void)
+{
+    // Enable the interrupts in the buffer control registers
+    modifyRegister(MCP_TXB0CTRL, TXB_TXIE, TXB_TXIE);
+    modifyRegister(MCP_TXB1CTRL, TXB_TXIE, TXB_TXIE);
+    modifyRegister(MCP_TXB2CTRL, TXB_TXIE, TXB_TXIE);
+
+    // Clear the transmit interrupts just in case
+    clearTXInterrupts();
+    
+    // Enable transmit interrupts
+    uint8_t mask = CANINTF_TX0IF | CANINTF_TX1IF | CANINTF_TX2IF;
+    modifyRegister(MCP_CANINTE, mask, mask);
+}
+
 uint8_t MCP2515::readRegister(const REGISTER reg)
 {
     startSPI();
